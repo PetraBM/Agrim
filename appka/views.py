@@ -6,7 +6,7 @@ from django.http import JsonResponse
 from .forms import UserRegistrationForm
 from .forms import UserEditForm
 from .forms import ProfileEditForm
-from .models import Profile
+from .models import Profile, Commodity, CNCode, Country, Licence
 import json
 
 @login_required
@@ -50,34 +50,36 @@ def register(request):
 def index(request):
     return render(request, "index.html")
 
-def addnew(request):
+def dashboard(request):
+    return render(request, "dashboard.html")
+
+def licence_create(request):
     return render(request, "licences/addnew.html")
 
-def search(request):
+def licence_search(request):
     return render(request, "licences/search.html")
 
 def get_komodita(request):
     
     komodita=[]
-    with open('komodity.json', 'r', encoding="UTF8") as f:
-        komodity = json.load(f)
-    for kom in komodity:
-        komodita.append({"Id":kom["Id"],"Nazev":kom["Name"]})
+    com = Commodity.objects.all()
+
+    for c in com:
+        komodita.append({"commodity_id":c.commodity_id,"name":c.commodity})
 
     return JsonResponse(komodita, safe=False)
 
 def get_knkod(request):
         
         knkod=[]
+
         if request.method == "GET":
             id=request.GET.get('id')
 
-            
-            with open('knkody.json', 'r', encoding="UTF8") as f:
-                knkody = json.load(f)
-            for kn in knkody:
-                if kn["KomoditaId"]==int(id):
-                    knkod.append({"Id":kn["Id"],"KnKod":kn["KnKod"]})
+            cncode = CNCode.objects.all().filter(commodity_id=id)
+
+            for cn in cncode:
+                knkod.append({"cn_id":cn.cncode_id,"KnKod":cn.cncode})
     
         return JsonResponse(knkod, safe=False)
 
@@ -93,7 +95,7 @@ def get_knkod_detail(request):
 
     return JsonResponse(knkod, safe=False)
 
-def save_licence(request):
+def licence_save(request):
     retData={"Status":"error"}
     if request.method == "POST":
         idKomodita=request.POST.get('idKomodita')
@@ -119,7 +121,7 @@ def save_licence(request):
         
     return JsonResponse(retData, safe=False)
 
-def get_licence(request):
+def licence_get(request):
     licence=[]
 
     if request.method == "GET":

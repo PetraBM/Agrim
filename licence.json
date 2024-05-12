@@ -46,5 +46,13 @@
         "mnozstvi": "888",
         "licence": "123456",
         "kvota": "false"
+    },
+    {
+        "idKomodita": "2",
+        "idKnKod": "6",
+        "mnozstvi": "5478",
+        "licence": "dslkfjaeůoghOW",
+        "kvota": "true",
+        "Id": 7
     }
 ]

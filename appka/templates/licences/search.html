@@ -113,7 +113,7 @@ $(document).ready(function () {
             if (id > 0) {
 
                 $.ajax({
-                    url: "{% url 'appka:get_licence' %}",
+                    url: "{% url 'appka:licence_get' %}",
                     type: "GET",
                     data: {id: id, kvota: kvota},
                     success: function (data) {

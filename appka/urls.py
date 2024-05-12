@@ -14,19 +14,20 @@ PasswordResetConfirmView.success_url = reverse_lazy("appka:password_reset_comple
 
 urlpatterns = [
     path("", include('django.contrib.auth.urls')),
-    path("", views.index, name='dashboard'),
+    path("index", views.index, name='index'),
+    path("", views.dashboard, name='dashboard'),
     path("register", views.register, name='register'),
     path("edit_user", views.edit_user, name='edit_user'),
-    path("addnew", views.addnew, name='addnew'),
-    path("search", views.search, name='search'),
 
+    path("licences/create", views.licence_create, name='licence_create'),
+    path("licences/search", views.licence_search, name='licence_search'),
+    path("licences/save", views.licence_save, name='licence_save'),
+    path("licences/get", views.licence_get, name='licence_get'),
 
     path("get_komodita", views.get_komodita, name='get_komodita'),
     path("get_knkod", views.get_knkod, name='get_knkod'),
     path("get_knkod_detail", views.get_knkod_detail, name='get_knkod_detail'),
-    path("save_licence", views.save_licence, name='save_licence'),
 
-    path("get_licence", views.get_licence, name='get_licence'),
 ]
 
 if settings.DEBUG:

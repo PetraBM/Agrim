@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
-{% block title %} Registration {% endblock %}
+{% block title %} Add new licence {% endblock %}
 
 {% block content %}
 <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
-    <h1>Přidaní nové licence do systému</h1>
+    <h1>Adding a new licence</h1>
 
     <div class="row mt-5">
         <div class="col-md-6">
-            <h2>Zvolte komoditu licence</h2>
+            <h2>Choose commodity</h2>
         </div>
         <div class="col-md-6">
             <select class="form-control" id="sKomodita" onchange="komoditaChange()">
@@ -17,13 +17,12 @@
     </div>
     <div class="row mt-3" id="dKnKod" hidden>
         <div class="col-md-6">
-            <h2>Zvol KN kod komodity</h2>
+            <h2>Choose CN code</h2>
         </div>
         <div class="col-md-6">
             <select class="form-control" id="sKnKod" onchange="showDetail()">
             </select>
-            <br>
-            <span id="spKnKodNazev"></span>
+
         </div>
     </div>
 
@@ -31,26 +30,36 @@
         <div class="col">
             <div class="row mt-1">
                 <div class="col-md-6">
-                    <h4>Zadej cislo licence</h4>
+                    <h4>Enter licence number</h4>
                 </div>
                 <div class="col-md-6">
-                    <input type="text" class="form-control" id="valLicence" placeholder="Číslo licence" oninput="checkUlozitShow()">
+                    <input type="text" class="form-control" id="valLicence" placeholder="Licence number" oninput="checkUlozitShow()">
                 </div>
             </div>
 
             <div class="row mt-1">
                 <div class="col-md-6">
-                    <h4> Kvotova licence</h4>
+                    <h4>TRQ licence</h4>
                 </div>
                 <div class="col-md-6">
                     <input class="form-check-input" type="checkbox" id="cbKvota">
-                    <label class="form-check-label" for="cbKvota">Kvota?</label>
+                    <label class="form-check-label" for="cbKvota">TRQ?</label>
                 </div>
             </div>
 
             <div class="row mt-1">
                 <div class="col-md-6">
-                   <h4> Zadej množství</h4>
+                    <h4>Enter TRQ number</h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="valTRQ" placeholder="TRQ number" oninput="checkUlozitShow()">
+                </div>
+            </div>
+
+
+            <div class="row mt-1">
+                <div class="col-md-6">
+                   <h4>Enter quantity in kg(hl)</h4>
                 </div>
                 <div class="col-md-6">
                     <input type="text" id="valMnozstvi" placeholder="" oninput="checkUlozitShow()">
@@ -87,9 +96,9 @@
             success: function (data) {
                 var sKomodita = $("#sKomodita");
                 sKomodita.empty();
-                sKomodita.append("<option value='0'>Vyberte komoditu</option>");
+                sKomodita.append("<option value='0'>Choose commodity</option>");
                 $.each(data, function (index, value) {
-                    sKomodita.append("<option value='" + value.Id + "'>" + value.Nazev + "</option>");
+                    sKomodita.append("<option value='" + value.commodity_id + "'>" + value.name + "</option>");
                 });
 
                 
@@ -97,6 +106,7 @@
                 $("#dUlozit").attr("hidden", true);
                 $("#spKnKodNazev").empty();
                 $("#spKvota").empty();
+                $("#valTRQ").val("");
                 $("#valLicence").val("");
                 $("#valMnozstvi").val("");
                 $("#cbKvota").prop("checked", false);
@@ -119,9 +129,9 @@
             success: function (data) {
                 var sKnKod = $("#sKnKod");
                 sKnKod.empty();
-                sKnKod.append("<option value='0'>Vyberte KN kod</option>");
+                sKnKod.append("<option value='0'>Choose CN code</option>");
                 $.each(data, function (index, value) {
-                    sKnKod.append("<option value='" + value.Id + "'>" + value.KnKod + "</option>");
+                    sKnKod.append("<option value='" + value.cn_id + "'>" + value.KnKod + "</option>");
                 });
             }
         });
@@ -142,24 +152,8 @@
         console.log(id);
 
             if (id > 0) {
+                $("#dDetail1").attr("hidden", false);
 
-                $.ajax({
-                    url: "{% url 'appka:get_knkod_detail' %}",
-                    type: "GET",
-                    data: {id: id},
-                    success: function (data) {
-                        var spKnKodNazev = $("#spKnKodNazev");
-                        spKnKodNazev.empty();
-                        spKnKodNazev.text(data.Name);
-                        var valMnozstvi = $("#valMnozstvi");
-                        valMnozstvi.attr("placeholder", "Množství v " + data.MnozstviJednotka);
-                        
-
-
-                        $("#dDetail1").attr("hidden", false);
-
-                    }
-                });
             } else {
                 HideAll();
             }
@@ -170,6 +164,7 @@
         var valLicence = $("#valLicence").val();
         var valMnozstvi = $("#valMnozstvi").val();
         var cbKvota = $("#cbKvota").prop("checked");
+        var valTRQ = $("#valTRQ").val();
         if (valLicence.length > 0 && valMnozstvi.length > 0) {
             $("#dUlozit").attr("hidden", false);
         } else {
@@ -185,25 +180,26 @@ function saveData()
     var licence = $("#valLicence").val();
     var mnozstvi = $("#valMnozstvi").val();
     var kvota = $("#cbKvota").prop("checked");
+    var TRQ = $("#valTRQ").val();
 
     var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
 
     
     $.ajax({
-        url: "{% url 'appka:save_licence' %}",
+        url: "{% url 'appka:licence_save' %}",
         type: "POST",
         cache: false,
         headers: {"X-CSRFToken": csrf_token},
-        data: {idKomodita: idKomodita, idKnKod: idKnKod, licence: licence, mnozstvi: mnozstvi, kvota: kvota, "csrfmiddlewaretoken":csrf_token},
+        data: {idKomodita: idKomodita, idKnKod: idKnKod, licence: licence, mnozstvi: mnozstvi, kvota: kvota, TRQ: TRQ, "csrfmiddlewaretoken":csrf_token},
         success: function (data) {
             if (data.Status == "ok") {
-                alert("Data byla uložena");
+                alert("Data has been saved");
                 $("#dKnKod").attr("hidden", true);
                 var sKnKod = $("#sKnKod");
                 sKnKod.empty();
                 loadKomodita();
             } else {
-                alert("Data nebyla uložena");
+                alert("Data has not been saved");
             }
         }
     });

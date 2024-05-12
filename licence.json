@@ -1,0 +1,50 @@
+[
+    {
+        "Id": "1",
+        "idKomodita": "1",
+        "idKnKod": "1",
+        "mnozstvi": "11",
+        "licence": "11",
+        "kvota": "false"
+    },
+    {
+        "Id": "2",
+        "idKomodita": "1",
+        "idKnKod": "1",
+        "mnozstvi": "11",
+        "licence": "12",
+        "kvota": "true"
+    },
+    {
+        "Id": "3",
+        "idKomodita": "2",
+        "idKnKod": "4",
+        "mnozstvi": "222",
+        "licence": "111",
+        "kvota": "false"
+    },
+    {
+        "Id": "4",
+        "idKomodita": "2",
+        "idKnKod": "4",
+        "mnozstvi": "222",
+        "licence": "111",
+        "kvota": "false"
+    },
+    {
+        "Id": "5",
+        "idKomodita": "3",
+        "idKnKod": "8",
+        "mnozstvi": "5",
+        "licence": "88552",
+        "kvota": "true"
+    },
+    {
+        "Id": "6",
+        "idKomodita": "1",
+        "idKnKod": "1",
+        "mnozstvi": "888",
+        "licence": "123456",
+        "kvota": "false"
+    }
+]

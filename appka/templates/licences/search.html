@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+{% block title %} Registration {% endblock %}
+
+{% block content %}
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<h1>Přidaní nové licence do systému</h1>
+
+<div class="row mt-5">
+    <div class="col-md-6">
+        <h2>Zvolte komoditu licence</h2>
+    </div>
+    <div class="col-md-6">
+        <select class="form-control" id="sKomodita" onchange="komoditaChange()">
+        </select>
+            
+    </div>
+</div>
+<div class="row mt-3" id="dKvota" hidden>
+    <div class="col-md-6">
+        <h4> Kvotova licence</h4>
+    </div>
+    <div class="col-md-6">
+        <input class="form-check-input" type="checkbox" id="cbKvota" onchange="showDetail()">
+        <label class="form-check-label" for="cbKvota">Kvota?</label>
+    </div>
+</div>
+
+<div class="row mt-3" id="dKnKod" hidden>
+    <div class="col-md-6">
+        <h2>Zvol KN kod komodity</h2>
+    </div>
+    <div class="col-md-6">
+        <select class="form-control" id="sKnKod" onchange="showDetail()">
+        </select>
+    </div>
+</div>
+
+<div class="row mt-3" id="dDetail1" hidden>
+    <div class="col">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Číslo licence</th>
+                    <th scope="col">Množství</th>
+                    <th scope="col">Kvota</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody id="tableTBody">
+            </tbody>
+
+        </table>
+        
+     </div>
+</div>
+
+<script>
+
+$(document).ready(function () {
+        loadKomodita();
+    });
+
+    function loadKomodita() {
+        $.ajax({
+            url: "{% url 'appka:get_komodita' %}",
+            type: "GET",
+            success: function (data) {
+                var sKomodita = $("#sKomodita");
+                sKomodita.empty();
+                sKomodita.append("<option value='0'>Vyberte komoditu</option>");
+                $.each(data, function (index, value) {
+                    sKomodita.append("<option value='" + value.Id + "'>" + value.Nazev + "</option>");
+                });
+
+                
+            }
+        });
+    };
+
+
+    function komoditaChange() {
+    
+    var id = $("#sKomodita").val();
+    if (id > 0) {
+
+        $.ajax({
+            url: "{% url 'appka:get_knkod' %}",
+            type: "GET",
+            data: {id: id},
+            success: function (data) {
+                var sKnKod = $("#sKnKod");
+                sKnKod.empty();
+                sKnKod.append("<option value='0'>Vyberte KN kod</option>");
+                $.each(data, function (index, value) {
+                    sKnKod.append("<option value='" + value.Id + "'>" + value.KnKod + "</option>");
+                });
+            }
+        });
+
+        $("#dKnKod").attr("hidden", false);
+        $("#dKvota").attr("hidden", false);
+       
+
+    }
+
+};
+
+    function showDetail() {
+        var id = $("#sKnKod").val();
+        var kvota = $("#cbKvota").prop("checked");
+        console.log(id);
+
+            if (id > 0) {
+
+                $.ajax({
+                    url: "{% url 'appka:get_licence' %}",
+                    type: "GET",
+                    data: {id: id, kvota: kvota},
+                    success: function (data) {
+
+                        var tableTBody = $("#tableTBody");
+                        tableTBody.empty();
+                        $.each(data, function (index, value) {
+                            console.log(value);
+                            var td="";
+                        td += "<tr>";
+                            td += "<td>" + value.licence + "</td>";
+                            td += "<td>" + value.mnozstvi + "</td>";
+                            if (value.kvota == 'true') {
+                                td += "<td>ANO</td>";
+                            } else {
+                                td += "<td>NE</td>";
+                            }
+                            td += "<td><button type='button' class='btn btn-primary' onclick='takeLicence(" + value.Id + ")'>Chtít tuhle licenci</button></td>";
+                            td += "</tr>";
+                        
+                            tableTBody.append(td);
+                        });
+
+
+                        $("#dDetail1").attr("hidden", false);
+
+                    }
+                });
+            } else {
+                HideAll();
+            }
+
+    }
+
+    function takeLicence(id) {
+        alert("Vybraná licence je: " + id);
+    }
+</script>
+
+{% endblock %}

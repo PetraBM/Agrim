@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} Registration {% endblock %}
+
+{% block content %}
+    <h1>Welcome to Mordor</h1>
+
+    <div class="row mt-5">
+        <div class="col-md-6">
+            <h2>Pro správná použití ty musís login použít</h2>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'appka:login' %}" class="btn btn-secondary float-right">Back to login</a>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h2>Jestli ty login nemít, ty muset napřed nějaký chtít založit</h2>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'appka:register' %}" class="btn btn-secondary float-right">Register hýr</a>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h2>Jestli ty login mít, ale có gì đó không ổn ở đó </h2>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'appka:edit_user' %}" class="btn btn-secondary float-right">Opravuj účet đây</a>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h2>Jestli ty něco na výměnu mít, klikej tu </h2>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'appka:addnew' %}" class="btn btn-secondary float-right">Nová nabídka</a>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-md-6">
+            <h2>Ale jestli chybet něco ti, klikej tu </h2>
+        </div>
+        <div class="col-md-6">
+            <a href="{% url 'appka:search' %}" class="btn btn-secondary float-right">Suchaj</a>
+        </div>
+    </div>
+
+
+
+{% endblock %}

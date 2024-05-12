@@ -1,0 +1,21 @@
+[
+{"Id":1, "KomoditaId":1, "KnKod":"111 111 111 111","Name":"Rejže bílá jasmínová","MnozstviJednotka":"kg"},
+{"Id":2, "KomoditaId":1, "KnKod":"111 111 111 211","Name":"Rejže bílá basmati","MnozstviJednotka":"kg"},
+{"Id":3, "KomoditaId":1, "KnKod":"111 111 111 311","Name":"Rejze bílá druhozrná","MnozstviJednotka":"kg"},
+{"Id":4, "KomoditaId":2, "KnKod":"111 111 211 111","Name":"Rejže černá jasmínová","MnozstviJednotka":"kg"},
+{"Id":5, "KomoditaId":2, "KnKod":"111 111 211 211","Name":"Rejže černá basmati","MnozstviJednotka":"kg"},
+{"Id":6, "KomoditaId":2, "KnKod":"111 111 211 311","Name":"Rejze černá druhozrná","MnozstviJednotka":"kg"},
+{"Id":7, "KomoditaId":3, "KnKod":"111 711 111 111","Name":"Plotve plejtváka","MnozstviJednotka":"ks"},
+{"Id":8, "KomoditaId":3, "KnKod":"111 711 111 121","Name":"Ocasy plejtváka","MnozstviJednotka":"ks"},
+{"Id":9, "KomoditaId":3, "KnKod":"111 711 111 131","Name":"Hlavy plejtváka","MnozstviJednotka":"ks"},
+{"Id":10, "KomoditaId":4, "KnKod":"111 711 111 141","Name":"Kuře","MnozstviJednotka":"mTon"},
+{"Id":11, "KomoditaId":4, "KnKod":"111 711 111 151","Name":"Krky","MnozstviJednotka":"kg"},
+{"Id":12, "KomoditaId":4, "KnKod":"111 711 111 161","Name":"Jazyk","MnozstviJednotka":"kg"},
+{"Id":13, "KomoditaId":4, "KnKod":"111 711 111 171","Name":"Slepice ","MnozstviJednotka":"kg"},
+{"Id":14, "KomoditaId":4, "KnKod":"111 711 111 181","Name":"Kachny ","MnozstviJednotka":"kg"},
+{"Id":15, "KomoditaId":4, "KnKod":"111 711 111 191","Name":"Krocani ","MnozstviJednotka":"kg"}
+
+
+
+
+]

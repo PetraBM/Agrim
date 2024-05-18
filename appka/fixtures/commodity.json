@@ -1,0 +1,122 @@
+[
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Rejže bílá jak sních"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Rejže černá jak uhlí"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Plejtváci obrovští"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Kuřata zlatá jak sláma"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Volské maso zelené jak tráva"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Vepřové růžové jak růže"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Jahody červené jak krev"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Banány žluté jak slunce"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Hrozny fialové jak víno"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Lilek temný jak noc"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Čočka hnědá jak čokoláda"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Fazole bílé jak mléko"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Rybí filet růžový jak úsvit"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Losos oranžový jak západ slunce"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Mrkev oranžová jak podzimní listí"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Okurky zelené jak smaragd"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Rajčata červená jak rubín"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Broskve zlatavé jak med"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Pomeranče oranžové jak plamen"
+    }
+  },
+  {
+    "model": "appka.commodity",
+    "fields": {
+      "commodity": "Cibule bílá jak perla"
+    }
+  }
+]

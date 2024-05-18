@@ -20,7 +20,7 @@
             <h2>Choose CN code</h2>
         </div>
         <div class="col-md-6">
-            <select class="form-control" id="sKnKod" onchange="showDetail()">
+            <select class="form-control" id="sKnKod" onchange="showCountry()">
             </select>
 
         </div>
@@ -91,6 +91,7 @@
 
     $(document).ready(function () {
         loadKomodita();
+        loadCountry();
     });
     function HideAll() {
         $("#dKnKod").attr("hidden", true);
@@ -160,8 +161,38 @@
 
 };
 
-    function showDetail() {
+function loadCountry() {
+        $.ajax({
+            url: "{% url 'appka:get_country' %}",
+            type: "GET",
+            success: function (data) {
+                var sCountry = $("#sCountry");
+                sCountry.empty();
+                sCountry.append("<option value='0'>Choose country</option>");
+                $.each(data, function (index, value) {
+                    sCountry.append("<option value='" + value.country_id + "'>" + value.name + "</option>");
+                });
+
+
+            }
+        });
+    };
+
+function showCountry() {
         var id = $("#sKnKod").val();
+        console.log(id);
+
+            if (id > 0) {
+                $("#dCountry").attr("hidden", false);
+
+            } else {
+                HideAll();
+            }
+
+    }
+
+    function showDetail() {
+        var id = $("#sCountry").val();
         console.log(id);
 
             if (id > 0) {

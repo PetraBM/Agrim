@@ -26,6 +26,17 @@
         </div>
     </div>
 
+    <div class="row mt-3" id="dCountry" hidden>
+        <div class="col-md-6">
+            <h2>Choose country of origin</h2>
+        </div>
+        <div class="col-md-6">
+            <select class="form-control" id="sCountry" onchange="showDetail()">
+            </select>
+
+        </div>
+    </div>
+
     <div class="row mt-3" id="dDetail1" hidden>
         <div class="col">
             <div class="row mt-1">
@@ -83,6 +94,7 @@
     });
     function HideAll() {
         $("#dKnKod").attr("hidden", true);
+        $("#dCountry").attr("hidden", true);
         $("#dDetail1").attr("hidden", true);
         $("#dUlozit").attr("hidden", true);
     }
@@ -105,6 +117,7 @@
                 $("#dDetail1").attr("hidden", true);
                 $("#dUlozit").attr("hidden", true);
                 $("#spKnKodNazev").empty();
+                $("#spCountryNazev").empty();
                 $("#spKvota").empty();
                 $("#valTRQ").val("");
                 $("#valLicence").val("");
@@ -177,6 +190,7 @@ function saveData()
 {
     var idKomodita = $("#sKomodita").val();
     var idKnKod = $("#sKnKod").val();
+    var idCountry = $("#sCountry").val();
     var licence = $("#valLicence").val();
     var mnozstvi = $("#valMnozstvi").val();
     var kvota = $("#cbKvota").prop("checked");
@@ -190,7 +204,8 @@ function saveData()
         type: "POST",
         cache: false,
         headers: {"X-CSRFToken": csrf_token},
-        data: {idKomodita: idKomodita, idKnKod: idKnKod, licence: licence, mnozstvi: mnozstvi, kvota: kvota, TRQ: TRQ, "csrfmiddlewaretoken":csrf_token},
+        data: {idKomodita: idKomodita, idKnKod: idKnKod, idCountry: idCountry, licence: licence, mnozstvi: mnozstvi, kvota: kvota, TRQ: TRQ,
+            "csrfmiddlewaretoken":csrf_token},
         success: function (data) {
             if (data.Status == "ok") {
                 alert("Data has been saved");

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} AGRIM Transfers {% endblock %}
+
+{% block content %}
+    <h1>Logged out</h1>
+
+    <p>
+        You have been successfully logged out.
+        <a href="{% url 'appka:login' %}">Back to login</a>
+    </p>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %} AGRIM Transfers {% endblock %}
+
+{% block content %}
+    <h1>Login page</h1>
+
+    <form action="{% url 'appka:login' %}" method="post">
+        {{form.as_p}}
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <button class="btn btn-primary">Login</button>
+        <a href="{% url 'appka:register' %}" class="btn btn-secondary">Don't have an account?</a>
+        <a href="{% url 'appka:password_reset' %}" class="btn btn-secondary">Lost password?</a>
+
+        <a class="btn btn-info" href="{% url 'social:begin' 'google-oauth2' %}">Sign In with Google</a>
+    </form>
+{% endblock %}

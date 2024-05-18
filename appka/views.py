@@ -22,7 +22,7 @@ def edit_user(request):
             user_form.save()
             profile_form.save()
 
-            return redirect("hroch:dashboard")
+            return redirect("appka:dashboard")
 
     return render(request, "account/edit.html", {
         "user_form": user_form,
@@ -82,6 +82,17 @@ def get_knkod(request):
                 knkod.append({"cn_id":cn.cncode_id,"KnKod":cn.cncode})
     
         return JsonResponse(knkod, safe=False)
+
+
+def get_country(request):
+    country = []
+    cty = Country.objects.all()
+
+    for c in cty:
+        country.append({"country_id": c.country_id, "name": c.country})
+
+    return JsonResponse(country, safe=False)
+
 
 def get_knkod_detail(request):
     knkod={}

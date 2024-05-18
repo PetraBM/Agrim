@@ -26,6 +26,7 @@ urlpatterns = [
 
     path("get_komodita", views.get_komodita, name='get_komodita'),
     path("get_knkod", views.get_knkod, name='get_knkod'),
+    path("get_country", views.get_country, name='get_country'),
     path("get_knkod_detail", views.get_knkod_detail, name='get_knkod_detail'),
 
 ]

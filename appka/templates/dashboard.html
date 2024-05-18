@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
-{% block title %} Dashboard {% endblock %}
+{% block title %} AGRIM Transfers {% endblock %}
 {% load static %}
 
 {% block content %}
-    <h1>Dashboard</h1>
+    <h1>AGRIM Transfers</h1>
 
     <form action="{% url 'appka:logout' %}" method="post">
         {% csrf_token %}
-        <button class="btn btn-primary">Logout</button>
+        <button class="btn btn-secondary">Logout</button>
     </form>
 
 <div class="mt-2">
-       <a class="btn btn-success" href="{% url 'appka:password_change' %}">Change password</a>
+       <a class="btn btn-warning" href="{% url 'appka:password_change' %}">Change password</a>
        <a class="btn btn-warning" href="{% url 'appka:edit_user' %}">Edit profile</a>
 </div>
+
+<div class="mt-5">
+       <a class="btn btn-success" href="{% url 'appka:licence_create' %}">Offer AGRIM</a>
+       <a class="btn btn-primary" href="{% url 'appka:licence_search' %}">Search AGRIM</a>
+</div>
+
+
 
 
 {% endblock %}

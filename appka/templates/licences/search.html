@@ -39,6 +39,31 @@
      </div>
 </div>
 
+<a href="{% url 'appka:dashboard' %}" class="btn btn-secondary">Main page</a>
+
+<div class="modal fade" tabindex="-1" id="moModalRequest" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Request detail</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Enter the requested quantity in kg(hl)</p>
+        <input type="text" id="valRequested"  >
+        <input type="hidden" id="SelectedLicence" >
+        <span id = "msg"></span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send request</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <script>
 
 $(document).ready(function () {
@@ -63,30 +88,30 @@ $(document).ready(function () {
     };
 
 
-    // function komoditaChange() {
-    //
-    // var id = $("#sKomodita").val();
-    // if (id > 0) {
-    //
-    //     $.ajax({
-    //         url: "{% url 'appka:get_knkod' %}",
-    //         type: "GET",
-    //         data: {id: id},
-    //         success: function (data) {
-    //             var sKnKod = $("#sKnKod");
-    //             sKnKod.empty();
-    //             sKnKod.append("<option value='0'>Vyberte KN kod</option>");
-    //             $.each(data, function (index, value) {
-    //                 sKnKod.append("<option value='" + value.Id + "'>" + value.KnKod + "</option>");
-    //             });
-    //         }
-    //     });
-    //
-    //     $("#dKnKod").attr("hidden", false);
-    //     $("#dKvota").attr("hidden", false);
-    //
-    //
-    // }
+    function komoditaChange() {
+
+    var id = $("#sKomodita").val();
+    if (id > 0) {
+
+        $.ajax({
+            url: "{% url 'appka:get_knkod' %}",
+            type: "GET",
+            data: {id: id},
+            success: function (data) {
+                var sKnKod = $("#sKnKod");
+                sKnKod.empty();
+                sKnKod.append("<option value='0'>Vyberte KN kod</option>");
+                $.each(data, function (index, value) {
+                    sKnKod.append("<option value='" + value.Id + "'>" + value.KnKod + "</option>");
+                });
+            }
+        });
+
+        $("#dKnKod").attr("hidden", false);
+        $("#dKvota").attr("hidden", false);
+
+
+    }
 
 };
 
@@ -115,7 +140,7 @@ $(document).ready(function () {
                             td += "<td>" + value.quantity + "</td>";
                             td += "<td>" + value.validity + "</td>";
 
-                            td += "<td><button type='button' class='btn btn-primary' onclick='takeLicence(" + value.Id + ")" +
+                            td += "<td><button type='button' class='btn btn-primary' onclick='takeLicence(" + value.id + ")" +
                                 "'>Send request</button></td>";
                             td += "</tr>";
                         
@@ -134,8 +159,46 @@ $(document).ready(function () {
     }
 
     function takeLicence(id) {
-        alert("Vybraná licence je: " + id);
+        console.log(id);
+        $("#SelectedLicence").val(id);
+        $("#valRequested").val("0");
+        $("#moModalRequest").modal("show");
     }
+
+   function SendRequest()
+{
+    var idLicence = $("#sSelectedLicence").val();
+    var requested = $("#valRequested").val();
+
+    var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+
+
+    $.ajax({
+        url: "{% url 'appka:request_save' %}",
+        type: "POST",
+        cache: false,
+        headers: {"X-CSRFToken": csrf_token},
+        data: {idLicence: idLicence, requested: requested, "csrfmiddlewaretoken":csrf_token},
+        success: function (data) {
+            if (data.Status == "ok") {
+                alert("Request has been sent");
+                $("#SelectedLicence").val("");
+                $("#valRequested").val("0");
+                $("#moModalRequest").modal("hide");
+            } else {
+                alert("Data has not been sent");
+                $("#msg").val(data.Status);
+            }
+        }
+    });
+
+
+}
+
+
+
+
+
 </script>
 
 {% endblock %}

@@ -1,7 +1,10 @@
+import datetime
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
+
 
 from .forms import UserRegistrationForm
 from .forms import UserEditForm
@@ -137,7 +140,7 @@ def licence_get(request):
         # print(id)
 
 
-        licences = Licence.objects.filter(cncode__commodity__commodity_id=id)
+        licences = Licence.objects.filter(cncode__commodity__commodity_id=id).filter(licence_validity__gte = datetime.datetime.now())
         for lic in licences:
             # print(lic)
             result.append({'id':lic.licence_id,
@@ -150,3 +153,7 @@ def licence_get(request):
                            })
 
     return JsonResponse(result, safe=False)
+
+
+def request_save(request):
+    pass

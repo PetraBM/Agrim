@@ -33,9 +33,10 @@ class Country(models.Model):
 class Licence(models.Model):
     licence_id = models.AutoField(primary_key=True)
     licence_number = models.CharField(max_length=50)
-    licence_validity = models.DateTimeField(default=timezone.now)
+    licence_validity = models.DateField()
     licence_quantity = models.IntegerField(default=0)
     cncode = models.ForeignKey("CNCode", on_delete=models.CASCADE)
     country = models.ForeignKey("Country", on_delete=models.CASCADE)
+    quota_number = models.CharField(max_length=10, blank=True)
     username = models.CharField(max_length=255)
     licence_active = models.IntegerField(default=1)

@@ -86,7 +86,7 @@ def get_knkod(request):
 
 def get_country(request):
     country = []
-    cty = Country.objects.all()
+    cty = Country.objects.order_by('country')
 
     for c in cty:
         country.append({"country_id": c.country_id, "name": c.country})
@@ -111,41 +111,42 @@ def licence_save(request):
     if request.method == "POST":
         idKomodita=request.POST.get('idKomodita')
         idKnKod=request.POST.get('idKnKod')
+        idCountry = request.POST.get('idCountry')
         mnozstvi=request.POST.get('mnozstvi')
         licence=request.POST.get('licence')
-        kvota=request.POST.get('kvota')
+        validity = request.POST.get('validity')
+        quota_number=request.POST.get('quota')
+        user = request.user
+        idKnKod=int(idKnKod)
+        ocncode=CNCode.objects.get(cncode_id=idKnKod)
+        idCountry = int(idCountry)
+        ocountry = Country.objects.get(country_id=idCountry)
 
-        data={"idKomodita":idKomodita,"idKnKod":idKnKod,"mnozstvi":mnozstvi,"licence":licence,"kvota":kvota}
-        print(data)
-        count=0
-        with open('licence.json', 'r', encoding="UTF8") as f:
-            licences = json.load(f)
-            
-            for lic in licences:
-                count+=1
-            data["Id"]=count+1
-            licences.append(data)
-            with open('licence.json', 'w', encoding="UTF8") as f:
-                json.dump(licences, f, ensure_ascii=False, indent=4)
-            retData={"Status":"ok"}
+        Licence.objects.create(licence_number=licence, licence_validity=validity, licence_quantity=mnozstvi, cncode=ocncode,
+                              quota_number=quota_number, country=ocountry, username=user)
 
-        
+        retData={"Status":"ok"}
+
     return JsonResponse(retData, safe=False)
 
 def licence_get(request):
-    licence=[]
+    result=[]
 
     if request.method == "GET":
         id=request.GET.get('id')
-        kvota=request.GET.get('kvota')
-        print(id)
-        print(kvota)
+        # print(id)
 
-        with open('licence.json', 'r', encoding="UTF8") as f:
-            licences = json.load(f)
-            for lic in licences:
-                print(lic)
-                if lic["idKnKod"]==id and lic["kvota"]==kvota:
-                    licence.append(lic)
 
-    return JsonResponse(licence, safe=False)
+        licences = Licence.objects.filter(cncode__commodity__commodity_id=id)
+        for lic in licences:
+            # print(lic)
+            result.append({'id':lic.licence_id,
+                           'licence':lic.licence_number,
+                           'cncode':lic.cncode.cncode,
+                           'country': lic.country.country,
+                           'quota': lic.quota_number,
+                           'quantity': lic.licence_quantity,
+                           'validity': lic.licence_validity
+                           })
+
+    return JsonResponse(result, safe=False)

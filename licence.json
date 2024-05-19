@@ -54,5 +54,61 @@
         "licence": "dslkfjaeůoghOW",
         "kvota": "true",
         "Id": 7
+    },
+    {
+        "idKomodita": "1",
+        "idKnKod": "56",
+        "mnozstvi": "25000",
+        "licence": "L24DL00158",
+        "kvota": "false",
+        "Id": 8
+    },
+    {
+        "idKomodita": "2",
+        "idKnKod": "67",
+        "mnozstvi": "254181",
+        "licence": "L24DL00254",
+        "kvota": "true",
+        "Id": 9
+    },
+    {
+        "idKomodita": "3",
+        "idKnKod": "98",
+        "mnozstvi": "64489",
+        "licence": "L24DL00001",
+        "kvota": "false",
+        "Id": 10
+    },
+    {
+        "idKomodita": "4",
+        "idKnKod": "7",
+        "mnozstvi": "2514",
+        "licence": "L24DL00023",
+        "kvota": "true",
+        "Id": 11
+    },
+    {
+        "idKomodita": "7",
+        "idKnKod": "10",
+        "mnozstvi": "6478",
+        "licence": "L24DL00004",
+        "kvota": "false",
+        "Id": 12
+    },
+    {
+        "idKomodita": "7",
+        "idKnKod": "11",
+        "mnozstvi": "859",
+        "licence": "L24DL00125",
+        "kvota": "false",
+        "Id": 13
+    },
+    {
+        "idKomodita": "10",
+        "idKnKod": "123",
+        "mnozstvi": "951",
+        "licence": "L24DL00325",
+        "kvota": "true",
+        "Id": 14
     }
 ]

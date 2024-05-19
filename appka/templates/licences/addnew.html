@@ -64,12 +64,12 @@
                     <h4>TRQ licence</h4>
                 </div>
                 <div class="col-md-6">
-                    <input class="form-check-input" type="checkbox" id="cbKvota">
+                    <input class="form-check-input" type="checkbox" id="cbKvota" onclick="showTRQ()">
                     <label class="form-check-label" for="cbKvota">TRQ?</label>
                 </div>
             </div>
 
-            <div class="row mt-1">
+            <div class="row mt-1" id="dTRQ" hidden>
                 <div class="col-md-6">
                     <h4>Enter TRQ number</h4>
                 </div>
@@ -87,13 +87,23 @@
                     <input type="text" id="valMnozstvi" placeholder="" oninput="checkUlozitShow()">
                 </div>
             </div>
-            
+
+            <div class="row mt-1">
+                <div class="col-md-6">
+                    <h4>Enter end of licence validity</h4>
+                </div>
+                <div class="col-md-6">
+                    <input type="date" class="form-control" id="valValidity" placeholder="Licence validity" oninput="checkUlozitShow()">
+                </div>
+            </div>
+
+
         </div>
     </div>
 
     <div class="row mt-3" id="dUlozit" hidden>
         <div class="col">
-            <button class="btn btn-primary" id="btnUlozit" onclick="saveData()">Uložit</button>
+            <button class="btn btn-primary" id="btnUlozit" onclick="saveData()">Save</button>
         </div>
     </div>
 
@@ -108,6 +118,7 @@
         $("#dKnKod").attr("hidden", true);
         $("#dCountry").attr("hidden", true);
         $("#dDetail1").attr("hidden", true);
+       // $("#dTRQ").attr("hidden", true);
         $("#dUlozit").attr("hidden", true);
     }
 
@@ -134,6 +145,7 @@
                 $("#valTRQ").val("");
                 $("#valLicence").val("");
                 $("#valMnozstvi").val("");
+                $("#valValidity").val("");
                 $("#cbKvota").prop("checked", false);
 
                 
@@ -215,12 +227,26 @@ function showCountry() {
 
     }
 
+    function showTRQ() {
+        var cbKvota = $("#cbKvota").prop("checked");
+        console.log(cbKvota)
+            if (cbKvota==true) {
+                $("#dTRQ").attr("hidden", false);
+
+            } else {
+                $("#dTRQ").attr("hidden", true);
+            }
+
+    }
+
+
     function checkUlozitShow() {
         var valLicence = $("#valLicence").val();
         var valMnozstvi = $("#valMnozstvi").val();
+        var valValidity = $("#valValidity").val();
         var cbKvota = $("#cbKvota").prop("checked");
         var valTRQ = $("#valTRQ").val();
-        if (valLicence.length > 0 && valMnozstvi.length > 0) {
+        if (valLicence.length > 0 && valMnozstvi.length > 0 && valValidity.length > 0) {
             $("#dUlozit").attr("hidden", false);
         } else {
             $("#dUlozit").attr("hidden", true);
@@ -235,6 +261,7 @@ function saveData()
     var idCountry = $("#sCountry").val();
     var licence = $("#valLicence").val();
     var mnozstvi = $("#valMnozstvi").val();
+    var validity = $("#valValidity").val();
     var kvota = $("#cbKvota").prop("checked");
     var TRQ = $("#valTRQ").val();
 
@@ -246,7 +273,8 @@ function saveData()
         type: "POST",
         cache: false,
         headers: {"X-CSRFToken": csrf_token},
-        data: {idKomodita: idKomodita, idKnKod: idKnKod, idCountry: idCountry, licence: licence, mnozstvi: mnozstvi, kvota: kvota, TRQ: TRQ,
+        data: {idKomodita: idKomodita, idKnKod: idKnKod, idCountry: idCountry, licence: licence, mnozstvi: mnozstvi, quota: TRQ,
+            TRQ: TRQ, validity: validity,
             "csrfmiddlewaretoken":csrf_token},
         success: function (data) {
             if (data.Status == "ok") {
@@ -254,6 +282,8 @@ function saveData()
                 $("#dKnKod").attr("hidden", true);
                 var sKnKod = $("#sKnKod");
                 sKnKod.empty();
+                $("#dCountry").attr("hidden", true);
+                var sCountry = $("#sCountry");
                 loadKomodita();
             } else {
                 alert("Data has not been saved");

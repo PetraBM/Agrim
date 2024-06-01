@@ -9,7 +9,7 @@ from django.http import JsonResponse
 from .forms import UserRegistrationForm
 from .forms import UserEditForm
 from .forms import ProfileEditForm
-from .models import Profile, Commodity, CNCode, Country, Licence
+from .models import Profile, Commodity, CNCode, Country, Licence, ReqLicence
 import json
 
 @login_required
@@ -61,6 +61,74 @@ def licence_create(request):
 
 def licence_search(request):
     return render(request, "licences/search.html")
+
+def licence_delete(request):
+    retData = {"Status": "error"}
+
+    if request.method == "POST":
+
+        idLicence = request.POST.get('idLicence')
+        lic = Licence.objects.get(licence_id = idLicence)
+        lic.licence_active = 0
+        lic.save()
+
+        retData = {"Status": "ok"}
+
+    return JsonResponse(retData, safe=False)
+
+
+
+def licence_list(request):
+    result = []
+
+    user = request.user
+
+    licences = (Licence.objects
+        .filter(username=user)
+        .filter(licence_validity__gte=datetime.datetime.now())
+        .filter(licence_active=1))
+    for lic in licences:
+
+        result.append({'id': lic.licence_id,
+                           'licence': lic.licence_number,
+                           'cncode': lic.cncode.cncode,
+                           'country': lic.country.country,
+                           'quota': lic.quota_number,
+                           'quantity': lic.licence_quantity,
+                           'validity': lic.licence_validity
+                           })
+
+
+    context={}
+    context["list"]=result
+
+    return render(request, "licences/my_licences.html", context=context)
+
+
+
+def request_list(request):
+    req=ReqLicence.objects.all()
+
+    result=[]
+    for r in req:
+        print(r)
+        result.append({'id': r.request_id,
+                       'licence_id': r.licence.licence_id,
+                       'licence': r.licence.licence_number,
+                       'cncode': r.licence.cncode.cncode,
+                       'country': r.licence.country.country,
+                       'quota': r.licence.quota_number,
+                       'quantity': r.licence.licence_quantity,
+                       'reqquantity': r.request_quantity,
+                       'holder': r.licence.username,
+                       'requser': r.username
+                       })
+
+
+    context={}
+    context["list"]=result
+
+    return render(request, "licences/list.html", context=context)
 
 def get_komodita(request):
     
@@ -115,22 +183,27 @@ def licence_save(request):
         idKomodita=request.POST.get('idKomodita')
         idKnKod=request.POST.get('idKnKod')
         idCountry = request.POST.get('idCountry')
-        mnozstvi=request.POST.get('mnozstvi')
+        quantity=request.POST.get('quantity')
         licence=request.POST.get('licence')
         validity = request.POST.get('validity')
         quota_number=request.POST.get('quota')
         user = request.user
+        quantity = int(quantity)
         idKnKod=int(idKnKod)
         ocncode=CNCode.objects.get(cncode_id=idKnKod)
         idCountry = int(idCountry)
         ocountry = Country.objects.get(country_id=idCountry)
 
-        Licence.objects.create(licence_number=licence, licence_validity=validity, licence_quantity=mnozstvi, cncode=ocncode,
+        if quantity < 0:
+            retData = {"Status": "The quantity must be higher than 0."}
+        else:
+           Licence.objects.create(licence_number=licence, licence_validity=validity, licence_quantity=quantity, cncode=ocncode,
                               quota_number=quota_number, country=ocountry, username=user)
 
-        retData={"Status":"ok"}
+           retData={"Status":"ok"}
 
     return JsonResponse(retData, safe=False)
+
 
 def licence_get(request):
     result=[]
@@ -140,7 +213,10 @@ def licence_get(request):
         # print(id)
 
 
-        licences = Licence.objects.filter(cncode__commodity__commodity_id=id).filter(licence_validity__gte = datetime.datetime.now())
+        licences = (Licence.objects
+                    .filter(cncode__commodity__commodity_id=id)
+                    .filter(licence_validity__gte = datetime.datetime.now())
+                    .filter(licence_active = 1))
         for lic in licences:
             # print(lic)
             result.append({'id':lic.licence_id,
@@ -156,4 +232,49 @@ def licence_get(request):
 
 
 def request_save(request):
-    pass
+    retData = {"Status": "error"}
+    if request.method == "POST":
+        licence_id = request.POST.get('idLicence')
+        licence_id = int(licence_id)
+        request_quantity = request.POST.get('requested')
+        request_quantity = int(request_quantity)
+        user = request.user
+        # print (licence_id)
+        lic = Licence.objects.get(licence_id=licence_id)
+        # print(lic)
+
+        if request_quantity > lic.licence_quantity:
+            retData = {"Status": "The requested quantity exceeds the available quantity."}
+        elif request_quantity < 0:
+            retData = {"Status": "The requested quantity must be higher than 0."}
+        else:
+            ReqLicence.objects.create(licence=lic, request_quantity=request_quantity,
+                                      request_date=datetime.datetime.now(), username=user)
+
+            retData = {"Status": "ok"}
+
+    return JsonResponse(retData, safe=False)
+
+
+# def my_list(request):
+#     result = []
+#
+#     if request.method == "GET":
+#         id = request.GET.get('id')
+#
+#         licences = Licence.objects.filter(licence__username cncode__commodity__commodity_id=id).filter(
+#             licence_validity__gte=datetime.datetime.now())
+#         for lic in licences:
+#             # print(lic)
+#             result.append({'id': lic.licence_id,
+#                            'licence': lic.licence_number,
+#                            'cncode': lic.cncode.cncode,
+#                            'country': lic.country.country,
+#                            'quota': lic.quota_number,
+#                            'quantity': lic.licence_quantity,
+#                            'validity': lic.licence_validity
+#                            })
+#
+#     return JsonResponse(result, safe=False)
+#
+

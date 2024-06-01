@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %} My licences {% endblock %}
+
+{% block content %}
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<h1>My licences</h1>
+
+
+
+<div class="row mt-3" id="dDetail1" >
+    <div class="col">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Licence number</th>
+                    <th scope="col">CN code</th>
+                    <th scope="col">Country</th>
+                    <th scope="col">TRQ number</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Validity</th>
+                    <th scope="col">Delete</th>
+                </tr>
+            </thead>
+            <tbody id="tableTBody">
+            {% for i in list %}
+                <tr>
+                    <td>{{ i.licence }}</td>
+                    <td>{{ i.cncode }}</td>
+                    <td>{{ i.country }}</td>
+                    <td>{{ i.quota }}</td>
+                    <td>{{ i.quantity }}</td>
+                    <td>{{ i.validity }}</td>
+                    <td><button type="button" class="btn btn-primary" onclick="DeleteLicence( {{ i.id }} )">Delete licence</button></td>
+                </tr>
+
+            {% endfor %}
+
+
+            </tbody>
+
+        </table>
+
+     </div>
+</div>
+
+<a href="{% url 'appka:dashboard' %}" class="btn btn-secondary">Main page</a>
+
+
+
+<script>
+
+
+
+   function DeleteLicence(idLicence)
+{
+    var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
+
+
+    $.ajax({
+        url: "{% url 'appka:licence_delete' %}",
+        type: "POST",
+        cache: false,
+        headers: {"X-CSRFToken": csrf_token},
+        data: {idLicence: idLicence, "csrfmiddlewaretoken":csrf_token},
+        success: function (data) {
+            if (data.Status == "ok") {
+                alert("Licence has been deleted");
+                location.reload();
+            } else {
+                alert("Licence has NOT been deleted");
+
+            }
+        }
+    });
+
+
+}
+
+
+
+
+
+</script>
+
+{% endblock %}

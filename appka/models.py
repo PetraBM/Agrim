@@ -1,5 +1,5 @@
-from datetime import timezone
-from django.utils import timezone
+import datetime
+from django.core.validators import MinValueValidator
 
 from django.conf import settings
 from django.db import models
@@ -33,10 +33,19 @@ class Country(models.Model):
 class Licence(models.Model):
     licence_id = models.AutoField(primary_key=True)
     licence_number = models.CharField(max_length=50)
-    licence_validity = models.DateField()
+    licence_validity = models.DateField(validators=[MinValueValidator(datetime.date.today)])
     licence_quantity = models.IntegerField(default=0)
     cncode = models.ForeignKey("CNCode", on_delete=models.CASCADE)
     country = models.ForeignKey("Country", on_delete=models.CASCADE)
     quota_number = models.CharField(max_length=10, blank=True)
     username = models.CharField(max_length=255)
     licence_active = models.IntegerField(default=1)
+
+class ReqLicence(models.Model):
+    request_id = models.AutoField(primary_key=True)
+    licence = models.ForeignKey("Licence", on_delete=models.CASCADE)
+    request_quantity = models.IntegerField(default=0)
+    username = models.CharField(max_length=255)
+    request_date = models.DateField()
+
+

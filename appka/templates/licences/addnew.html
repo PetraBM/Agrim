@@ -274,7 +274,7 @@ function saveData()
         type: "POST",
         cache: false,
         headers: {"X-CSRFToken": csrf_token},
-        data: {idKomodita: idKomodita, idKnKod: idKnKod, idCountry: idCountry, licence: licence, mnozstvi: mnozstvi, quota: TRQ,
+        data: {idKomodita: idKomodita, idKnKod: idKnKod, idCountry: idCountry, licence: licence, quantity: mnozstvi, quota: TRQ,
             TRQ: TRQ, validity: validity,
             "csrfmiddlewaretoken":csrf_token},
         success: function (data) {
@@ -285,6 +285,7 @@ function saveData()
                 sKnKod.empty();
                 $("#dCountry").attr("hidden", true);
                 var sCountry = $("#sCountry");
+                $("#dTRQ").attr("hidden", true);
                 loadKomodita();
             } else {
                 alert("Data has not been saved");

@@ -52,11 +52,12 @@
         <p>Enter the requested quantity in kg(hl)</p>
         <input type="text" id="valRequested"  >
         <input type="hidden" id="SelectedLicence" >
-        <span id = "msg"></span>
+          <br>
+        <span id="msg" class="text-danger"></span>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Send request</button>
+        <button type="button" class="btn btn-primary" onclick="SendRequest()">Send request</button>
       </div>
     </div>
   </div>
@@ -163,11 +164,12 @@ $(document).ready(function () {
         $("#SelectedLicence").val(id);
         $("#valRequested").val("0");
         $("#moModalRequest").modal("show");
+        $("#msg").html("");
     }
 
    function SendRequest()
 {
-    var idLicence = $("#sSelectedLicence").val();
+    var idLicence = $("#SelectedLicence").val();
     var requested = $("#valRequested").val();
 
     var csrf_token = $('input[name="csrfmiddlewaretoken"]').val();
@@ -186,8 +188,8 @@ $(document).ready(function () {
                 $("#valRequested").val("0");
                 $("#moModalRequest").modal("hide");
             } else {
-                alert("Data has not been sent");
-                $("#msg").val(data.Status);
+                //alert("Data has not been sent");
+                $("#msg").html(data.Status);
             }
         }
     });

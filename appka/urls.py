@@ -23,7 +23,11 @@ urlpatterns = [
     path("licences/search", views.licence_search, name='licence_search'),
     path("licences/save", views.licence_save, name='licence_save'),
     path("licences/get", views.licence_get, name='licence_get'),
+    path("licences/delete", views.licence_delete, name='licence_delete'),
+    path("licences/list", views.licence_list, name='licence_list'),
     path("request/save", views.request_save,name='request_save'),
+    path("request/list", views.request_list,name='request_list'),
+
 
     path("get_komodita", views.get_komodita, name='get_komodita'),
     path("get_knkod", views.get_knkod, name='get_knkod'),

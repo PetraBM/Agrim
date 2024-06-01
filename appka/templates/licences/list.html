@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %} Request list {% endblock %}
+
+{% block content %}
+<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+<h1>Request list</h1>
+
+
+
+<div class="row mt-3" id="dDetail1">
+    <div class="col">
+        <table class="table table-sm table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Licence number</th>
+                    <th scope="col">CN code</th>
+                    <th scope="col">Licence quantity (kg)</th>
+                    <th scope="col">Requested quantity (kg)</th>
+                    <th scope="col">Holder</th>
+                    <th scope="col">Request user</th>
+                </tr>
+            </thead>
+            <tbody id="tableTBody">
+
+            {% for i in list %}
+                <tr>
+                    <td>{{ i.licence }}</td>
+                    <td>{{ i.cncode }}</td>
+                    <td>{{ i.quantity }}</td>
+                    <td>{{ i.reqquantity }}</td>
+                    <td>{{ i.holder }}</td>
+                    <td>{{ i.requser }}</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+
+        </table>
+        
+     </div>
+</div>
+
+
+
+{% endblock %}

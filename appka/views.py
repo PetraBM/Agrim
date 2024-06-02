@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.decorators.http import require_POST
 from django.http import JsonResponse
-
+from django.core.mail import send_mail
 
 from .forms import UserRegistrationForm
 from .forms import UserEditForm
@@ -247,9 +247,8 @@ def request_save(request):
         request_quantity = request.POST.get('requested')
         request_quantity = int(request_quantity)
         user = request.user
-        # print (licence_id)
+
         lic = Licence.objects.get(licence_id=licence_id)
-        # print(lic)
 
         if request_quantity > lic.licence_quantity:
             retData = {"Status": "The requested quantity exceeds the available quantity."}
@@ -264,25 +263,13 @@ def request_save(request):
     return JsonResponse(retData, safe=False)
 
 
-# def my_list(request):
-#     result = []
-#
-#     if request.method == "GET":
-#         id = request.GET.get('id')
-#
-#         licences = Licence.objects.filter(licence__username cncode__commodity__commodity_id=id).filter(
-#             licence_validity__gte=datetime.datetime.now())
-#         for lic in licences:
-#             # print(lic)
-#             result.append({'id': lic.licence_id,
-#                            'licence': lic.licence_number,
-#                            'cncode': lic.cncode.cncode,
-#                            'country': lic.country.country,
-#                            'quota': lic.quota_number,
-#                            'quantity': lic.licence_quantity,
-#                            'validity': lic.licence_validity
-#                            })
-#
-#     return JsonResponse(result, safe=False)
-#
 
+
+subject = 'Request of AGRIM transfer'
+message = (f'Hello {holder - licence.user}, '
+           f'request for transfer of AGRIM licence {licence_id} for {request_quantity} kg has been sent by {request.user}.'
+           f'Best regards,'
+           f'AGRIM Transfers')
+email_from = settings.EMAIL_HOST_USER
+recipient_list = [licence.username,]
+send_mail( subject, message, email_from, recipient_list )

@@ -182,7 +182,7 @@ $(document).ready(function () {
         headers: {"X-CSRFToken": csrf_token},
         data: {idLicence: idLicence, requested: requested, "csrfmiddlewaretoken":csrf_token},
         success: function (data) {
-            if (data.Status == "ok") {
+            if (data.Status === "ok") {
                 alert("Request has been sent");
                 $("#SelectedLicence").val("");
                 $("#valRequested").val("0");

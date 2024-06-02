@@ -165,7 +165,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'appka:dashboard'
-LOGIN_URL = 'appka:login'
+LOGIN_URL = 'appka:index'
 LOGOUT_URL = 'appka:logout'
 
 #EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # výpis emailu do konzole pro test

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %} AGRIM Transfers {% endblock %}
+{% load static %}
+
+
+{% block content %}
+    <h1>AGRIM Transfers</h1>
+
+    <h5>Welcome on web site dedicated to transfers of the AGRIM licences.</h5>
+
+    <p>If you want to offer or search for AGRIM licence you have to log in.</p>
+    <p>
+        If you want to continue <a class="btn btn-link" href="{% url 'appka:login' %}">Log in</a>
+    </p>
+{% endblock %}

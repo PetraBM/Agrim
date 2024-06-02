@@ -2,16 +2,27 @@
 {% block title %} AGRIM Transfers {% endblock %}
 
 {% block content %}
-    <h1>Login page</h1>
+    <h1>AGRIM Transfers</h1>
+    <h3>Login page</h3>
+    <h5>Welcome on web site dedicated to transfers of the AGRIM licences.</h5>
+
+    <p>If you want to offer or search for AGRIM licence you have to log in.</p>
 
     <form action="{% url 'appka:login' %}" method="post">
         {{form.as_p}}
         {% csrf_token %}
         <input type="hidden" name="next" value="{{ next }}">
         <button class="btn btn-primary">Login</button>
+
+    <div class="mt-2">
+        <a class="btn btn-info" href="{% url 'social:begin' 'google-oauth2' %}">Sign In with Google</a>
+    </div>
+
+    <div class="mt-5">
         <a href="{% url 'appka:register' %}" class="btn btn-secondary">Don't have an account?</a>
         <a href="{% url 'appka:password_reset' %}" class="btn btn-secondary">Lost password?</a>
+    </div>
 
-        <a class="btn btn-info" href="{% url 'social:begin' 'google-oauth2' %}">Sign In with Google</a>
+
     </form>
 {% endblock %}

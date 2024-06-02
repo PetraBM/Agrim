@@ -50,18 +50,23 @@ def register(request):
 
     return render(request, "account/register.html", {"form": form})
 
+
 def index(request):
     return render(request, "index.html")
 
+@login_required
 def dashboard(request):
     return render(request, "dashboard.html")
 
+@login_required
 def licence_create(request):
     return render(request, "licences/addnew.html")
 
+@login_required
 def licence_search(request):
     return render(request, "licences/search.html")
 
+@login_required
 def licence_delete(request):
     retData = {"Status": "error"}
 
@@ -77,7 +82,7 @@ def licence_delete(request):
     return JsonResponse(retData, safe=False)
 
 
-
+@login_required
 def licence_list(request):
     result = []
 
@@ -105,7 +110,7 @@ def licence_list(request):
     return render(request, "licences/my_licences.html", context=context)
 
 
-
+@login_required
 def request_list(request):
     req=ReqLicence.objects.all()
 
@@ -130,6 +135,7 @@ def request_list(request):
 
     return render(request, "licences/list.html", context=context)
 
+@login_required
 def get_komodita(request):
     
     komodita=[]
@@ -140,6 +146,7 @@ def get_komodita(request):
 
     return JsonResponse(komodita, safe=False)
 
+@login_required
 def get_knkod(request):
         
         knkod=[]
@@ -154,7 +161,7 @@ def get_knkod(request):
     
         return JsonResponse(knkod, safe=False)
 
-
+@login_required
 def get_country(request):
     country = []
     cty = Country.objects.order_by('country')
@@ -164,7 +171,7 @@ def get_country(request):
 
     return JsonResponse(country, safe=False)
 
-
+@login_required
 def get_knkod_detail(request):
     knkod={}
     if request.method == "GET":
@@ -177,6 +184,7 @@ def get_knkod_detail(request):
 
     return JsonResponse(knkod, safe=False)
 
+@login_required
 def licence_save(request):
     retData={"Status":"error"}
     if request.method == "POST":
@@ -204,7 +212,7 @@ def licence_save(request):
 
     return JsonResponse(retData, safe=False)
 
-
+@login_required
 def licence_get(request):
     result=[]
 
@@ -230,7 +238,7 @@ def licence_get(request):
 
     return JsonResponse(result, safe=False)
 
-
+@login_required
 def request_save(request):
     retData = {"Status": "error"}
     if request.method == "POST":

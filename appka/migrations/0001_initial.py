@@ -48,29 +48,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='profile', to=settings.AUTH_USER_MODEL)),
             ],
-        ),
-        migrations.CreateModel(
-            name='Licence',
-            fields=[
-                ('licence_id', models.AutoField(primary_key=True, serialize=False)),
-                ('licence_number', models.CharField(max_length=50)),
-                ('licence_validity', models.DateField(validators=[django.core.validators.MinValueValidator(datetime.date.today)])),
-                ('licence_quantity', models.IntegerField(default=0)),
-                ('quota_number', models.CharField(blank=True, max_length=10)),
-                ('licence_active', models.IntegerField(default=1)),
-                ('cncode', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appka.cncode')),
-                ('country', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appka.country')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appka.profile')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='ReqLicence',
-            fields=[
-                ('request_id', models.AutoField(primary_key=True, serialize=False)),
-                ('request_quantity', models.IntegerField(default=0)),
-                ('request_date', models.DateField()),
-                ('licence', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appka.licence')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='appka.profile')),
-            ],
-        ),
+        )
+
+
     ]

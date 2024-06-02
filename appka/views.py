@@ -129,8 +129,8 @@ def request_list(request):
                        'quota': r.licence.quota_number,
                        'quantity': r.licence.licence_quantity,
                        'reqquantity': r.request_quantity,
-                       'holder': r.licence.username,
-                       'requser': r.username
+                       'holder': r.licence.user.username,
+                       'requser': r.user.username
                        })
 
     context = {}
